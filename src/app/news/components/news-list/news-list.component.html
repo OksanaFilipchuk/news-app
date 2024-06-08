@@ -1,0 +1,24 @@
+<div class="news-list-wrapper">
+  <label for="search">Filter by keywords</label>
+  <input
+    placeholder="The most successful IT companies in 2020"
+    type="search"
+    id="search"
+    [formControl]="searchControl"
+  />
+  <div class="news-list">
+    <div
+      *ngFor="
+        let newsItem of news | paginate : { itemsPerPage: 6, currentPage: page }
+      "
+      class="news-item"
+    >
+      <app-news-item [newsItem]="newsItem"></app-news-item>
+    </div>
+  </div>
+
+  <pagination-controls
+    *ngIf="news.length"
+    (pageChange)="page = $event"
+  ></pagination-controls>
+</div>
