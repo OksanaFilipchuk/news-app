@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsItemsResponce } from '../models/news.interfase';
+import { NewsResponce } from '../models/news.interfase';
 
 @Injectable({
   providedIn: 'root',
@@ -11,13 +11,14 @@ export class NewsService {
 
   constructor(private http: HttpClient) {}
 
-  getArticlesByKeyWord(
+  getArticles(
     limit: number,
-    param: string,
-    searchQuery?: string
-  ): Observable<NewsItemsResponce> {
-    return this.http.get<NewsItemsResponce>(
-      `${this.url}/articles/?limit=${limit}&${param}=${searchQuery}`
-    );
+    searchQuery: string,
+    parameter: string
+  ): Observable<NewsResponce> {
+    let params = new HttpParams().set(parameter, searchQuery);
+    return this.http.get<NewsResponce>(`${this.url}/articles/?limit=${limit}`, {
+      params: params,
+    });
   }
 }

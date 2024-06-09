@@ -8,6 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NewsListComponent } from './news/components/news-list/news-list.component';
 import { NewsDetailComponent } from './news/components/news-detail/news-detail.component';
 import { NewsModule } from './news/news.module';
+import { StoreModule } from '@ngrx/store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { appReducers } from './store/reducers/app.reducers';
+import { EffectsModule } from '@ngrx/effects';
+import { NewsEffects } from './store/effects/news.effects';
+import { environment } from 'src/environment/environment';
 
 const routesConfig: Routes = [
   { path: '', redirectTo: '/news', pathMatch: 'full' },
@@ -23,6 +29,12 @@ const routesConfig: Routes = [
     BrowserAnimationsModule,
     HttpClientModule,
     RouterModule.forRoot(routesConfig),
+    StoreModule.forRoot(appReducers),
+    EffectsModule.forRoot([NewsEffects]),
+    StoreDevtoolsModule.instrument({
+      maxAge: 25,
+      logOnly: environment.production,
+    }),
   ],
   providers: [],
   bootstrap: [AppComponent],
