@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { NewsItemData } from '../../models/news.interfase';
+import { NewsItemData } from '../../models/news.interface';
 
 @Component({
   selector: 'app-news-item',
@@ -8,5 +8,6 @@ import { NewsItemData } from '../../models/news.interfase';
 })
 export class NewsItemComponent {
   @Input() newsItem: NewsItemData;
+  @Input() searchQuery: string;
   descriptionLimit = 100;
 }

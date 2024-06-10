@@ -1,8 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { Subject, debounceTime, switchMap, take, takeUntil } from 'rxjs';
+import { Subject, debounceTime, takeUntil } from 'rxjs';
 import { NewsService } from '../../services/news.service';
-import { NewsItemData, NewsResponce } from '../../models/news.interfase';
+import { NewsItemData } from '../../models/news.interface';
 import { Store } from '@ngrx/store';
 import {
   LoadNewsByDescription,
@@ -20,12 +20,13 @@ export class NewsListComponent implements OnInit, OnDestroy {
   private onDestroy$ = new Subject();
   searchControl = new FormControl('');
   searchQuery = '';
+  resultsAmount: number;
   newsByTitle: NewsState;
   newsByDescription: NewsState;
   newsList: NewsItemData[] = [];
-  initialValue = 'Ukraine';
   currentPage: number;
-  itemsPerPage: 10;
+  itemsPerPage = 10;
+  offset = 0;
 
   newsByTitleStore$ = this.store.select(
     (state: any): NewsState => state.newsByTitle
@@ -34,7 +35,7 @@ export class NewsListComponent implements OnInit, OnDestroy {
     (state: any): NewsState => state.newsByDescription
   );
 
-  constructor(private store: Store) {}
+  constructor(private store: Store, private newsService: NewsService) {}
 
   ngOnInit(): void {
     this.searchControl.valueChanges
@@ -47,27 +48,79 @@ export class NewsListComponent implements OnInit, OnDestroy {
         }
       });
 
-    this.onSearchChange(this.initialValue);
+    this.onSearchChange(this.searchQuery);
 
     this.newsByTitleStore$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((news: NewsState) => {
         this.newsByTitle = news;
         this.newsList = news.results;
+        if (this.newsList.length < this.itemsPerPage) {
+          this.store.dispatch(
+            LoadNewsByDescription({
+              limit: this.itemsPerPage,
+              offset: this.offset,
+              searchQuery: this.searchQuery,
+            })
+          );
+        }
       });
 
     this.newsByDescriptionStore$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((news) => {
         this.newsByDescription = news;
+        if (!this.newsByTitle.next) {
+          const filteredArticles = this.newsByDescription.results.filter(
+            (el) =>
+              !this.newsByTitle.results.some((article) => article.id === el.id)
+          );
+          this.newsList = [...this.newsByTitle.results, ...filteredArticles];
+        }
       });
   }
 
   onSearchChange(value: string) {
-    this.store.dispatch(LoadNewsByTitle({ limit: 10, searchQuery: value }));
     this.store.dispatch(
-      LoadNewsByDescription({ limit: 10, searchQuery: value })
+      LoadNewsByTitle({
+        limit: this.itemsPerPage,
+        offset: this.offset,
+        searchQuery: value,
+      })
     );
+    this.newsService
+      .getArticles(this.itemsPerPage, 0, value, 'search')
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((data) => (this.resultsAmount = data.count));
+  }
+
+  loadMore() {
+    if (this.newsByTitle.next) {
+      const urlObj = new URL(this.newsByTitle.next);
+      const offset = urlObj.searchParams.get('offset');
+      this.store.dispatch(
+        LoadNewsByTitle({
+          limit: this.itemsPerPage,
+          offset: offset ? +offset : 10,
+          searchQuery: this.searchQuery,
+        })
+      );
+      return;
+    }
+    if (this.newsByDescription.results) {
+    }
+    if (this.newsByDescription.next) {
+      const urlObj = new URL(this.newsByDescription.next);
+      const offset = urlObj.searchParams.get('offset');
+      this.store.dispatch(
+        LoadNewsByDescription({
+          limit: this.itemsPerPage,
+          offset: offset ? +offset : 10,
+          searchQuery: this.searchQuery,
+        })
+      );
+      return;
+    }
   }
 
   ngOnDestroy(): void {

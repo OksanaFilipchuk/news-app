@@ -1,13 +1,13 @@
 import { createAction, props } from '@ngrx/store';
-import { NewsResponce } from 'src/app/news/models/news.interfase';
+import { NewsResponce } from 'src/app/news/models/news.interface';
 
 export const LoadNewsByTitle = createAction(
   '[News] Load News By Title',
-  props<{ limit: number; searchQuery: string }>()
+  props<{ limit: number; offset: number; searchQuery: string }>()
 );
 export const LoadNewsByDescription = createAction(
   '[News] Load News By Description',
-  props<{ limit: number; searchQuery: string }>()
+  props<{ limit: number; offset: number; searchQuery: string }>()
 );
 
 export const LoadNewsByTitleSuccess = createAction(

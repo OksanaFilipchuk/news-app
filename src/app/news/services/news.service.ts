@@ -13,11 +13,12 @@ export class NewsService {
 
   getArticles(
     limit: number,
+    offset: number,
     searchQuery: string,
     parameter: string
   ): Observable<NewsResponce> {
-    let params = new HttpParams().set(parameter, searchQuery);
-    return this.http.get<NewsResponce>(`${this.url}/articles/?limit=${limit}`, {
+    let params = { [parameter]: searchQuery, offset: offset, limit: limit };
+    return this.http.get<NewsResponce>(`${this.url}/articles/?`, {
       params: params,
     });
   }

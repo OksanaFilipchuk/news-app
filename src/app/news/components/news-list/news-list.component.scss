@@ -1,6 +1,7 @@
 .news-list-wrapper {
   display: flex;
   flex-direction: column;
+  justify-content: space-evenly;
   padding: 80px;
   gap: 20px;
 
@@ -23,5 +24,17 @@
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+  }
+
+  .load-more-button {
+    width: 160px;
+    height: 50px;
+    border-radius: 26px;
+    font-size: 18px;
+    margin: 0 auto;
+    border: 1px solid #787777;
+    &:hover {
+      cursor: pointer;
+    }
   }
 }

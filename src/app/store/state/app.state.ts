@@ -1,4 +1,4 @@
-import { NewsItemData, NewsResponce } from 'src/app/news/models/news.interfase';
+import { NewsResponce } from 'src/app/news/models/news.interface';
 import {
   initialNewsByDescriptionState,
   initialNewsByTitleState,

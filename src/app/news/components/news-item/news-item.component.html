@@ -5,21 +5,27 @@
       background: 'url(' + newsItem.image_url + ')center / cover no-repeat',
     }"
   ></div>
-  <div>{{ newsItem.published_at | date }}</div>
-  <mat-card-header>
-    <mat-card-title
-      [appHighlightSearchMatch]="newsItem.title"
-      [searchQuery]="searchQuery"
-    >
-    </mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-    <p
-      [appHighlightSearchMatch]="newsItem.summary | truncate : descriptionLimit"
-      [searchQuery]="searchQuery"
-    ></p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-button>Read more</button>
-  </mat-card-actions>
+  <div class="card-content-wrapper">
+    <div class="date">{{ newsItem.published_at | date }}</div>
+    <mat-card-header>
+      <mat-card-title
+        [appHighlightSearchMatch]="newsItem.title"
+        [searchQuery]="searchQuery"
+      >
+      </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+      <p
+        [appHighlightSearchMatch]="
+          newsItem.summary | truncate : descriptionLimit
+        "
+        [searchQuery]="searchQuery"
+      ></p>
+    </mat-card-content>
+    <mat-card-actions>
+      <a [routerLink]="['/news', newsItem.id]" class="navigate-button">
+        Read more →</a
+      >
+    </mat-card-actions>
+  </div>
 </mat-card>
