@@ -7,6 +7,7 @@ import { NgxPaginationModule } from 'ngx-pagination';
 import { TruncatePipe } from './pipes/truncate.pipe';
 import { MatDividerModule } from '@angular/material/divider';
 import { HighlightSearchMatchDirective } from './directive/highlight-search-match.directive';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [TruncatePipe, HighlightSearchMatchDirective],
@@ -14,14 +15,12 @@ import { HighlightSearchMatchDirective } from './directive/highlight-search-matc
     CommonModule,
     ReactiveFormsModule,
     MatCardModule,
-    MatIconModule,
     NgxPaginationModule,
     MatDividerModule,
   ],
   exports: [
     ReactiveFormsModule,
     MatCardModule,
-    MatIconModule,
     NgxPaginationModule,
     TruncatePipe,
     MatDividerModule,

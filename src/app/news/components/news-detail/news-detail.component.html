@@ -1,1 +1,15 @@
-<p>news-detail works!</p>
+<div *ngIf="article" class="news-detail">
+  <div
+    class="news-detail-header"
+    [ngStyle]="{
+        background: 'url(' + article.image_url + ')center / cover no-repeat',
+      }"
+  ></div>
+  <div class="news-detail-container">
+    <div class="article-wrapper">
+      <h4 class="title">{{ article.title }}</h4>
+      <p class="summary">{{ article.summary }}</p>
+    </div>
+    <a [routerLink]="['/news']" class="back-button">← Back to home page </a>
+  </div>
+</div>

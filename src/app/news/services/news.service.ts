@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsResponce } from '../models/news.interfase';
+import { NewsItemData, NewsResponce } from '../models/news.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -20,5 +20,9 @@ export class NewsService {
     return this.http.get<NewsResponce>(`${this.url}/articles/?limit=${limit}`, {
       params: params,
     });
+  }
+
+  getSingleArticle(id: number): Observable<NewsItemData> {
+    return this.http.get<NewsItemData>(`${this.url}/articles/${id}`, {});
   }
 }
