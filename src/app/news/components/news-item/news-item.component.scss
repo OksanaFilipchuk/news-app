@@ -6,4 +6,8 @@
     width: 400px;
     height: 217px;
   }
+
+  ::ng-deep .highlight {
+    background-color: #f7f75e;
+  }
 }
