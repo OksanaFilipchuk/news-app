@@ -15,7 +15,7 @@ class TestComponent {
   query = 'text';
 }
 
-fdescribe('HighlightSearchMatchDirective', () => {
+describe('HighlightSearchMatchDirective', () => {
   let fixture: ComponentFixture<TestComponent>;
   let component: TestComponent;
   let debugEl: DebugElement;

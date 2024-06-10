@@ -19,7 +19,7 @@
   </div>
 
   <button
-    *ngIf="newsByDescription.next || newsByTitle.next"
+    *ngIf="newsByDescription?.next || newsByTitle?.next"
     (click)="loadMore()"
     class="load-more-button"
   >
