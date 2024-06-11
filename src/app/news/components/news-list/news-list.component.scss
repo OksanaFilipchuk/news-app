@@ -1,7 +1,6 @@
 .news-list-wrapper {
   display: flex;
   flex-direction: column;
-  justify-content: space-evenly;
   padding: 80px;
   gap: 20px;
 
@@ -24,6 +23,7 @@
     display: flex;
     flex-wrap: wrap;
     gap: 30px;
+    justify-content: space-around;
   }
 
   .load-more-button {
