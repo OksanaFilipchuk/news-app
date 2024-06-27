@@ -6,10 +6,3 @@ export const initialNewsByTitleState: NewsResponce = {
   previous: null,
   results: [],
 };
-
-export const initialNewsByDescriptionState: NewsResponce = {
-  count: 0,
-  next: null,
-  previous: null,
-  results: [],
-};

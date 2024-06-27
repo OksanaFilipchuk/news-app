@@ -5,7 +5,6 @@ import { NewsService } from '../../services/news.service';
 import { NewsItemData } from '../../models/news.interface';
 import { Store } from '@ngrx/store';
 import {
-  LoadNewsByDescription,
   LoadNewsByTitle,
   ResetNewsState,
 } from 'src/app/store/actions/news.actions';
@@ -22,7 +21,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   searchQuery = '';
   resultsAmount: number;
   newsByTitle: NewsState;
-  newsByDescription: NewsState;
   newsList: NewsItemData[] = [];
   currentPage: number;
   itemsPerPage = 10;
@@ -31,9 +29,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
   newsByTitleStore$ = this.store.select(
     (state: any): NewsState => state.newsByTitle
   );
-  newsByDescriptionStore$ = this.store.select(
-    (state: any): NewsState => state.newsByDescription
-  );
 
   constructor(private store: Store, private newsService: NewsService) {}
 
@@ -41,9 +36,9 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.searchControl.valueChanges
       .pipe(debounceTime(500), takeUntil(this.onDestroy$))
       .subscribe((value) => {
-        if (value) {
+        this.store.dispatch(ResetNewsState());
+        if (typeof value === 'string') {
           this.searchQuery = value;
-          this.store.dispatch(ResetNewsState());
           this.onSearchChange(value);
         }
       });
@@ -53,30 +48,10 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.newsByTitleStore$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((news: NewsState) => {
+        console.log(news);
         this.newsByTitle = news;
         this.newsList = news.results;
-        if (this.newsList.length < this.itemsPerPage) {
-          this.store.dispatch(
-            LoadNewsByDescription({
-              limit: this.itemsPerPage,
-              offset: this.offset,
-              searchQuery: this.searchQuery,
-            })
-          );
-        }
-      });
-
-    this.newsByDescriptionStore$
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((news) => {
-        this.newsByDescription = news;
-        if (!this.newsByTitle.next) {
-          const filteredArticles = this.newsByDescription.results.filter(
-            (el) =>
-              !this.newsByTitle.results.some((article) => article.id === el.id)
-          );
-          this.newsList = [...this.newsByTitle.results, ...filteredArticles];
-        }
+        this.resultsAmount = news.count;
       });
   }
 
@@ -88,10 +63,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
         searchQuery: value,
       })
     );
-    this.newsService
-      .getArticles(this.itemsPerPage, 0, value, 'search')
-      .pipe(takeUntil(this.onDestroy$))
-      .subscribe((data) => (this.resultsAmount = data.count));
   }
 
   loadMore() {
@@ -100,20 +71,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
       const offset = urlObj.searchParams.get('offset');
       this.store.dispatch(
         LoadNewsByTitle({
-          limit: this.itemsPerPage,
-          offset: offset ? +offset : 10,
-          searchQuery: this.searchQuery,
-        })
-      );
-      return;
-    }
-    if (this.newsByDescription.results) {
-    }
-    if (this.newsByDescription.next) {
-      const urlObj = new URL(this.newsByDescription.next);
-      const offset = urlObj.searchParams.get('offset');
-      this.store.dispatch(
-        LoadNewsByDescription({
           limit: this.itemsPerPage,
           offset: offset ? +offset : 10,
           searchQuery: this.searchQuery,

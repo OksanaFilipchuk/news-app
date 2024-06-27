@@ -1,8 +1,6 @@
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { NewsService } from 'src/app/news/services/news.service';
 import {
-  LoadNewsByDescription,
-  LoadNewsByDescriptionSuccess,
   LoadNewsByTitle,
   LoadNewsByTitleSuccess,
 } from '../actions/news.actions';
@@ -30,26 +28,6 @@ export class NewsEffects {
       )
       .pipe(
         map((news: NewsResponce) => LoadNewsByTitleSuccess(news)),
-        catchError(() => EMPTY)
-      );
-  });
-
-  getArticlesByDescriptionKeyword = createEffect((): any => {
-    return this.actions
-      .pipe(
-        ofType(LoadNewsByDescription),
-        mergeMap(
-          (actions: { limit: number; offset: number; searchQuery: string }) =>
-            this.newsService.getArticles(
-              actions.limit,
-              actions.offset,
-              actions.searchQuery,
-              'summary_contains'
-            )
-        )
-      )
-      .pipe(
-        map((news: NewsResponce) => LoadNewsByDescriptionSuccess(news)),
         catchError(() => EMPTY)
       );
   });

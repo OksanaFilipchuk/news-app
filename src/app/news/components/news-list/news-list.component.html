@@ -1,6 +1,6 @@
-<div class="news-list-wrapper">
+<div class="news-list-wrapper container">
+  <h3>News app</h3>
   <label for="search">Filter by keywords</label>
-
   <input
     placeholder="The most successful IT companies in 2020"
     type="search"
@@ -19,7 +19,7 @@
   </div>
 
   <button
-    *ngIf="newsByDescription?.next || newsByTitle?.next"
+    *ngIf="newsByTitle?.next"
     (click)="loadMore()"
     class="load-more-button"
   >
