@@ -1,7 +1,6 @@
 .news-list-wrapper {
   display: flex;
   flex-direction: column;
-  padding: 80px;
   gap: 20px;
 
   input {
@@ -17,6 +16,10 @@
     background-repeat: no-repeat;
     outline: none;
     box-shadow: 0px 0px 7px 2px #ccc;
+
+    @media screen and (max-width: 768px) {
+      width: 100%;
+    }
   }
 
   .news-list {
