@@ -25,4 +25,7 @@
   >
     Load more
   </button>
+  <div *ngIf="searchQuery && !newsList.length" class="no-news">
+    There are no news matching the search request
+  </div>
 </div>

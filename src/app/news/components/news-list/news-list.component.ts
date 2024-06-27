@@ -48,7 +48,6 @@ export class NewsListComponent implements OnInit, OnDestroy {
     this.newsByTitleStore$
       .pipe(takeUntil(this.onDestroy$))
       .subscribe((news: NewsState) => {
-        console.log(news);
         this.newsByTitle = news;
         this.newsList = news.results;
         this.resultsAmount = news.count;
