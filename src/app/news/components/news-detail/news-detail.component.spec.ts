@@ -8,26 +8,13 @@ describe('NewsDetailComponent', () => {
   let component: NewsDetailComponent;
   let fixture: ComponentFixture<NewsDetailComponent>;
   const activatedRouteMock = {
-    snapshot: {
-      params: {
-        id: 2,
-      },
-    },
+    data: of(),
   };
-  const newsServiceMock = jasmine.createSpyObj('NewsService', [
-    'getSingleArticle',
-    'getArticles',
-  ]);
-  newsServiceMock.getSingleArticle = () => of();
-  newsServiceMock.getArticles = () => of();
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [NewsDetailComponent],
-      providers: [
-        { provide: ActivatedRoute, useValue: activatedRouteMock },
-        { provide: NewsService, useValue: newsServiceMock },
-      ],
+      providers: [{ provide: ActivatedRoute, useValue: activatedRouteMock }],
     });
     fixture = TestBed.createComponent(NewsDetailComponent);
     component = fixture.componentInstance;

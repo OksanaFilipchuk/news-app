@@ -14,11 +14,17 @@ import { appReducers } from './store/reducers/app.reducers';
 import { EffectsModule } from '@ngrx/effects';
 import { NewsEffects } from './store/effects/news.effects';
 import { environment } from 'src/environment/environment';
+import { NewsDataResolver } from './news/resolvers/news-data.resolver';
+import { NewsService } from './news/services/news.service';
 
 const routesConfig: Routes = [
   { path: '', redirectTo: '/news', pathMatch: 'full' },
   { path: 'news', component: NewsListComponent },
-  { path: 'news/:id', component: NewsDetailComponent },
+  {
+    path: 'news/:id',
+    component: NewsDetailComponent,
+    resolve: { newsData: NewsDataResolver },
+  },
 ];
 
 @NgModule({
@@ -36,7 +42,7 @@ const routesConfig: Routes = [
       logOnly: environment.production,
     }),
   ],
-  providers: [],
+  providers: [NewsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

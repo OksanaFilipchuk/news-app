@@ -23,7 +23,7 @@ export class NewsService {
     });
   }
 
-  getSingleArticle(id: number): Observable<NewsItemData> {
+  getSingleArticle(id: string): Observable<NewsItemData> {
     return this.http.get<NewsItemData>(`${this.url}/articles/${id}`, {});
   }
 }
