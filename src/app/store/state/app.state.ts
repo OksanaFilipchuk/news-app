@@ -1,4 +1,4 @@
-import { NewsResponce } from 'src/app/news/models/news.interface';
+import { NewsResponse } from 'src/app/news/models/news.interface';
 import { initialNewsByTitleState } from './news.state';
 
 export interface AppState {
@@ -9,6 +9,6 @@ export const initialAppState: AppState = {
   newsByTitle: initialNewsByTitleState,
 };
 
-export interface NewsState extends NewsResponce {
+export interface NewsState extends NewsResponse {
   error?: string | null;
 }

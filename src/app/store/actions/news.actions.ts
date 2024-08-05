@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { NewsResponce } from 'src/app/news/models/news.interface';
+import { NewsResponse } from 'src/app/news/models/news.interface';
 
 export const LoadNewsByTitle = createAction(
   '[News] Load News By Title',
@@ -8,7 +8,7 @@ export const LoadNewsByTitle = createAction(
 
 export const LoadNewsByTitleSuccess = createAction(
   '[News] Load News By Title Success',
-  props<NewsResponce>()
+  props<NewsResponse>()
 );
 
 export const ReceivedFailure = createAction(

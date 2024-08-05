@@ -12,7 +12,7 @@ export interface NewsItemData {
   events: [];
 }
 
-export interface NewsResponce {
+export interface NewsResponse {
   count: number;
   next: string | null;
   previous: string | null;

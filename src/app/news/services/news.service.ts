@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { NewsItemData, NewsResponce } from '../models/news.interface';
+import { NewsItemData, NewsResponse } from '../models/news.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -16,9 +16,9 @@ export class NewsService {
     offset: number,
     searchQuery: string,
     parameter: string
-  ): Observable<NewsResponce> {
+  ): Observable<NewsResponse> {
     let params = { [parameter]: searchQuery, offset: offset, limit: limit };
-    return this.http.get<NewsResponce>(`${this.url}/articles/?`, {
+    return this.http.get<NewsResponse>(`${this.url}/articles/?`, {
       params: params,
     });
   }

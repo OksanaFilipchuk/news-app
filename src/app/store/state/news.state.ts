@@ -1,6 +1,6 @@
-import { NewsResponce } from 'src/app/news/models/news.interface';
+import { NewsResponse } from 'src/app/news/models/news.interface';
 
-export const initialNewsByTitleState: NewsResponce = {
+export const initialNewsByTitleState: NewsResponse = {
   count: 0,
   next: null,
   previous: null,

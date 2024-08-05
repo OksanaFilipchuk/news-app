@@ -6,7 +6,7 @@ import {
 } from '../actions/news.actions';
 import { EMPTY, catchError, map, mergeMap } from 'rxjs';
 import { Injectable } from '@angular/core';
-import { NewsResponce } from 'src/app/news/models/news.interface';
+import { NewsResponse } from 'src/app/news/models/news.interface';
 
 @Injectable()
 export class NewsEffects {
@@ -27,7 +27,7 @@ export class NewsEffects {
         )
       )
       .pipe(
-        map((news: NewsResponce) => LoadNewsByTitleSuccess(news)),
+        map((news: NewsResponse) => LoadNewsByTitleSuccess(news)),
         catchError(() => EMPTY)
       );
   });
